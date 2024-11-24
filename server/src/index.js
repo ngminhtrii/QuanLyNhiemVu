@@ -12,11 +12,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URI_DB = process.env.MONGO_DB;
 
-// Cấu hình CORS
 const corsOptions = {
-  origin: "https://quanlynhiemvu.onrender.com", // Thay đổi URL này thành URL của client của bạn
-  credentials: true,
+  origin: ["http://localhost:3000", "https://quanlynhiemvu.onrender.com"], // Cho phép nhiều nguồn
+  credentials: true, // Cho phép gửi cookie nếu cần thiết
 };
+
 app.use(cors(corsOptions));
 
 app.use(morgan("dev"));
