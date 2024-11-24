@@ -12,23 +12,29 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URI_DB = process.env.MONGO_DB;
 
-app.use(cors());
+// Cấu hình CORS
+const corsOptions = {
+  origin: "https://quanlynhiemvu.onrender.com", // Thay đổi URL này thành URL của client của bạn
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(morgan("dev"));
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ limit: "30mb", extended: false }));
 app.use(cookieParser());
 
 mongoose
-    .connect(URI_DB)
-    .then(() => {
-        console.log("Connect DB success.");
-    })
-    .catch((err) => {
-        console.log("Err DB: ", err.message);
-    });
+  .connect(URI_DB)
+  .then(() => {
+    console.log("Connect DB success.");
+  })
+  .catch((err) => {
+    console.log("Err DB: ", err.message);
+  });
 
 app.use("/", rootRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
