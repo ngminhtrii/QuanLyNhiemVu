@@ -14,6 +14,8 @@ const URI_DB = process.env.MONGO_DB;
 
 const corsOptions = {
   origin: ["https://quanlynhiemvufe.onrender.com", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"], // Chấp nhận header Authorization
   optionsSuccessStatus: 200,
 };
 
