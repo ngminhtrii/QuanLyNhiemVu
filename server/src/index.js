@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 const URI_DB = process.env.MONGO_DB;
 
 const corsOptions = {
-  origin: "https://quanlynhiemvufe.onrender.com",
+  origin: ["https://quanlynhiemvufe.onrender.com", "http://localhost:3000"],
   optionsSuccessStatus: 200,
 };
 
