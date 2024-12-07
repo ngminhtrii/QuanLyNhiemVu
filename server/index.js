@@ -1,7 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
-//axios.defaults.baseURL = "https://quanlynhiemvu.onrender.com/api";
+//axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "https://quanlynhiemvu.onrender.com/api";
 
 export function postApi(url, data, token) {
   return axios.post(url, data, {
