@@ -15,6 +15,6 @@ router.post("/login", login);
 // router.get("/logout", login);
 router.post("/refreshToken", refreshToken);
 router.get("/searchUser", isAuth, searchUser);
-router.post("/profile/:id", isAuth, updateProfile);
+router.patch("/profile/:id", isAuth, updateProfile);
 
 export default router;

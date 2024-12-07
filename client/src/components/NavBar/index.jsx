@@ -1,88 +1,125 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import Model from "../../Model";
 import "./style.scss";
+import { useSelector, useDispatch } from "react-redux";
+import updateProfile from "../../../redux/thunk/user";
 
-const NavBar = ({ nav, setNav }) => {
-  const p = useLocation();
-  let opacity = nav ? "1" : "0";
-  let transitionDelay = nav ? "0.5s" : "0s";
+const Profile = ({ close }) => {
+  const { auth } = useSelector((state) => state);
+  const [linkModel, setLinkModel] = useState(false);
+  function closeLinkModel() {
+    setLinkModel(false);
+  }
+
   return (
-    <div className="nav">
-      <div
-        className="top"
-        style={{
-          opacity: opacity,
-          transitionProperty: "opacity",
-          transitionDelay: transitionDelay,
-        }}
-      >
-        <div className="logo">
-          <img
-            src="https://i0.wp.com/www.senviet.art/wp-content/uploads/edd/2021/12/dai-hoc-su-pham-tphcm.jpg?fit=700%2C525&ssl=1"
-            alt="logo"
-          />
+    <Model close={close}>
+      {linkModel && (
+        <LinkModel
+          avatar={auth.user.avatar}
+          close={closeLinkModel}
+          username={auth.user.username}
+        />
+      )}
+      <div className="profile">
+        <h2>Thông tin cá nhân</h2>
+        <div className="profile__avatar">
+          <div className="profile__avatar-img">
+            <img src={auth.user.avatar} alt="" />
+          </div>
+          <div
+            className="profile__avatar-btn"
+            onClick={() => setLinkModel(true)}
+          >
+            <i className="bx bxs-edit-alt"></i>
+          </div>
         </div>
-        <div className="info">
-          <h3>Quản lý dự án</h3>
-          <p>WorkSpace</p>
+        <div className="profile__item">
+          <i className="bx bxs-envelope"></i>
+          <p>{auth.user.email}</p>
         </div>
-        <div className="icon" onClick={() => setNav(false)}>
-          <i className="bx bx-chevron-left"></i>
+        <div className="profile__item">
+          <i className="bx bxs-user"></i>
+          <p>{auth.user.username}</p>
         </div>
       </div>
-      <div
-        className="mid"
-        style={{
-          opacity: opacity,
-          transitionProperty: "opacity",
-          transitionDelay: transitionDelay,
-        }}
-      >
-        <Link
-          to={"/activate"}
-          className={`item ${p.pathname === "/activate" ? "active" : ""}`}
-        >
-          <i className="bx bx-run"></i>
-          <p>Hoạt động</p>
-        </Link>
-
-        <div className="line"></div>
-        <Link to={"/"} className={`item ${p.pathname === "/" ? "active" : ""}`}>
-          <i className="bx bx-home"></i>
-          <p>Tổng quan</p>
-        </Link>
-        <Link
-          to={"/board"}
-          className={`item ${p.pathname.startsWith("/board") ? "active" : ""}`}
-        >
-          <i className="bx bx-grid-alt"></i>
-          <p>Dự án</p>
-        </Link>
-        {/* <div className="item">
-          <i className="bx bx-calendar-minus"></i>
-          <p>Lịch trình</p>
-        </div> */}
-      </div>
-
-      <div
-        className="bot"
-        style={{
-          opacity: opacity,
-          transitionProperty: "opacity",
-          transitionDelay: transitionDelay,
-        }}
-      >
-        {/* <div className="item">
-                    <i className="bx bx-help-circle"></i>
-                    <p>Giúp đỡ</p>
-                </div> */}
-        {/* <div className="item">
-          <i className="bx bx-cog"></i>
-          <p>Cài đặt</p>
-        </div> */}
-      </div>
-    </div>
+    </Model>
   );
 };
 
-export default NavBar;
+const LinkModel = ({ close, avatar, username }) => {
+  const [avatarValue, setAvatarValue] = useState(avatar);
+  const [usernameValue, setUsernameValue] = useState(username);
+  const { auth } = useSelector((state) => state);
+  function onChangeInput(e) {
+    const value = e.target.value;
+    setAvatarValue(value);
+  }
+
+  function onChangeInputUsername(e) {
+    const value = e.target.value;
+    setUsernameValue(value);
+  }
+  const dispatch = useDispatch();
+  function handleChangeLinkAvatar() {
+    if (avatarValue === avatar && usernameValue === username) return;
+    if (usernameValue.trim() === "") {
+      alert("Username không được để trống");
+      return;
+    }
+    const data = {
+      avatar: avatarValue,
+      username: usernameValue,
+    };
+    dispatch(
+      updateProfile({
+        data,
+        token: auth.token,
+        id: auth.user._id,
+      })
+    );
+    close();
+  }
+
+  return (
+    <Model close={close}>
+      <div className="linkModel">
+        <h3>Link ảnh</h3>
+        <div className="input-group">
+          <input
+            type="text"
+            name="avatar"
+            id=""
+            value={avatarValue}
+            onChange={onChangeInput}
+          />
+          <i className="bx bx-photo-album"></i>
+        </div>
+        <h3>Username</h3>
+        <div className="input-group">
+          <input
+            type="text"
+            name="username"
+            id=""
+            value={usernameValue}
+            onChange={onChangeInputUsername}
+          />
+          <i className="bx bxs-user"></i>
+        </div>
+        <div className="btns row">
+          <div className="col-6">
+            <button className="btn bg-pink" onClick={close}>
+              Hủy bỏ
+            </button>
+          </div>
+          <div className="col-6">
+            <button className="btn" onClick={handleChangeLinkAvatar}>
+              Thay đổi
+            </button>
+          </div>
+        </div>
+      </div>
+    </Model>
+  );
+};
+
+export default Profile;
