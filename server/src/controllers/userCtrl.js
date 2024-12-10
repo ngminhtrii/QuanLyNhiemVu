@@ -42,7 +42,9 @@ export const updateProfile = async (req, res) => {
     console.log("Updates to be applied:", updates); // Log các thay đổi
 
     if (Object.keys(updates).length === 0) {
-      return res.status(400).json({ err: "Bạn chưa có avatar" });
+      return res
+        .status(400)
+        .json({ err: "Không thể thay đổi. Avatar phải có ảnh" });
     }
 
     // Cập nhật thông tin người dùng
