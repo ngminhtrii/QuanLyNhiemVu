@@ -1,15 +1,14 @@
 import React from "react";
+import Model from "../../../components/Model";
 
-import Model from "../Model";
-
-const CustomMolDel = ({
+const CustomTagModel = ({
   close,
+  data,
+  onChangeInput,
+  onSubmit,
   colors,
   colorChoice,
   setColorChoice,
-  onSubmit,
-  data,
-  onChangeInput,
 }) => {
   return (
     <Model close={close}>
@@ -17,29 +16,7 @@ const CustomMolDel = ({
         <div className="input-group">
           <input
             type="text"
-            placeholder="Tên nhiệm vụ"
-            name="title"
-            value={data.title}
-            onChange={onChangeInput}
-            required
-          />
-          <i className="bx bx-buildings"></i>
-        </div>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Mô tả nhiệm vụ"
-            name="dec"
-            value={data.dec}
-            onChange={onChangeInput}
-            required
-          />
-          <i className="bx bx-captions"></i>
-        </div>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Tag"
+            placeholder="Nhãn nhiệm vụ"
             name="tag"
             value={data.tag}
             onChange={onChangeInput}
@@ -61,10 +38,10 @@ const CustomMolDel = ({
             ))}
           </ul>
         </div>
-        <button>Thêm nhiệm vụ</button>
+        <button>Cập nhật</button>
       </form>
     </Model>
   );
 };
 
-export default CustomMolDel;
+export default CustomTagModel;
