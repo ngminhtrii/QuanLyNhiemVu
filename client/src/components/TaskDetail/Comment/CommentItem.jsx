@@ -69,13 +69,13 @@ const CommentItem = ({ comment, onDeleteComment, onUpdateComment }) => {
       ) : (
         <div className="comment__item-content">{comment.content}</div>
       )}
-      <div className="comment__item-footer">
+      {/*<div className="comment__item-footer">
         <div className="comment__item-footer__icon">
           <i className="bx bx-smile"></i>
         </div>
-        <div className="comment__item-footer__reply"></div>
-        <div className="comment__item-footer__time"></div>
-      </div>
+        <div className="comment__item-footer__reply">Phản hồi</div>
+        <div className="comment__item-footer__time">6 giờ trước</div>
+      </div>*/}
     </div>
   );
 };
