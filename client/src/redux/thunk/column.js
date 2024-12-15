@@ -65,6 +65,41 @@ const deleteTask = createAsyncThunk(
   }
 );
 
+const deleteTaskComment = createAsyncThunk(
+  "users/deleteTaskComment",
+  async ({ token, idProject, idTask, idComment, content }, thunkApi) => {
+    try {
+      const res = await deleteApi(
+        `project/${idProject}/task/${idTask}/comment/${idComment}`,
+        token
+      );
+      await postApi("/activate", { content, project: idProject }, token);
+      return res.data;
+    } catch (error) {
+      const errMsg = error.response.data.err || error.message;
+      return thunkApi.rejectWithValue(errMsg);
+    }
+  }
+);
+
+const updateTaskComment = createAsyncThunk(
+  "users/updateTaskComment",
+  async ({ data, token, idProject, idTask, idComment, content }, thunkApi) => {
+    try {
+      const res = await patchApi(
+        `project/${idProject}/task/${idTask}/comment/${idComment}`,
+        data,
+        token
+      );
+      await postApi("/activate", { content, project: idProject }, token);
+      return res.data;
+    } catch (error) {
+      const errMsg = error.response.data.err || error.message;
+      return thunkApi.rejectWithValue(errMsg);
+    }
+  }
+);
+
 const createColumn = createAsyncThunk(
   "users/createColumn",
   async ({ data, token, idProject }, thunkApi) => {
@@ -116,4 +151,6 @@ export {
   updateTask,
   createTaskComment,
   deleteTask,
+  deleteTaskComment,
+  updateTaskComment,
 };
